@@ -2,8 +2,6 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 
 def launchBrowser():
@@ -16,47 +14,53 @@ def launchBrowser():
 
     # Set the path to the Chrome WebDriver executable
     driver = webdriver.Chrome(service=Service(r"C:\Projects\Funnystuff\checkingForNovelsUpdates\chromedriver.exe"), options=options)
+
+
     return driver  # Return the driver instance
 
-def scrape_novels():
-    driver = launchBrowser()
 
+
+def paragon():
+    
     books = [
-        "https://www.lightnovelworld.com/novel/paragon-of-sin-14072105",
         "https://www.lightnovelworld.com/novel/my-three-wives-are-beautiful-vampires-30071448",
-        "https://www.lightnovelworld.com/novel/rebirth-of-the-nameless-immortal-god-14072106",
+        "https://www.lightnovelworld.com/novel/sword-god-in-a-world-of-magic-16091309",
         "https://www.lightnovelworld.com/novel/dimensional-descent-30071448",
-        "https://www.lightnovelworld.com/novel/shadow-slave-30071448"
+        "https://www.lightnovelworld.com/novel/shadow-slave-30071448",
+        "https://www.lightnovelworld.com/novel/blood-warlock-succubus-partner-in-the-apocalypse-16091309"
     ]
 
-    agree = True
+    books = {
+        "paragon":"https://www.lightnovelworld.com/novel/paragon-of-sin-16091350",
+        "vamp":"https://www.lightnovelworld.com/novel/my-three-wives-are-beautiful-vampires-30071448",
+        "swordGod":"https://www.lightnovelworld.com/novel/sword-god-in-a-world-of-magic-16091309",
+        "dimensional":"https://www.lightnovelworld.com/novel/dimensional-descent-30071448",
+        "shadowSlave":"https://www.lightnovelworld.com/novel/shadow-slave-30071448",
+        "warlock":"https://www.lightnovelworld.com/novel/blood-warlock-succubus-partner-in-the-apocalypse-16091309"
+    }
 
-    try:
-        for book in books:
-            driver.get(book)
-            print(book)
-            if agree == True:
-                try:
-                    # Locate the <span> element with text "AGREE" and click it using XPath
-                    agree_span = driver.find_element(By.XPATH, "//span[contains(text(), 'AGREE')]")
-                    agree_span.click()
-                except NoSuchElementException:
-                    print("Element with text 'AGREE' not found")
+    for name,url in books.items():
+        driver = launchBrowser()
 
-            agree = False
-            try:
-                update = WebDriverWait(driver, 50).until(
-                    EC.visibility_of_element_located((By.CLASS_NAME, "update"))
-                )
-                print(update.text)
-            except NoSuchElementException:
-                print("Element with class 'update' not found")
+        driver.get(url)
 
-            driver.get("about:blank")
+        try:
+            # Locate the <span> element with text "AGREE" and click it using XPath
+            agree_span = driver.find_element(By.XPATH, "//span[contains(text(), 'AGREE')]")
+            agree_span.click()
+        except NoSuchElementException:
+            print("Element with text 'AGREE' not found")
 
-    finally:
-        print("done")
-        #driver.quit()  # Make sure to close the browser when done
+        try:
+            update = driver.find_element(By.CLASS_NAME, "update")
+    
+            print(update.text,name)
+        except NoSuchElementException:
+            print("Element with class 'update' not found")
+
+        driver.quit()
+
+
 
 if __name__ == "__main__":
-    scrape_novels()
+    paragon()
