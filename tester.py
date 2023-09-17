@@ -1,19 +1,16 @@
 import smtplib
-from email.message import EmailMessage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.common.exceptions import NoSuchElementException
 
-email_address = "email"
+email_address = "gmail"
 password = "password"
 
 msg = MIMEMultipart()
-
 
 def launchBrowser():
     options = webdriver.ChromeOptions()
@@ -30,16 +27,10 @@ def launchBrowser():
     return driver  # Return the driver instance
 
 
+def booksToCheck():
 
-def paragon():
-
+    ##Books to check
     books = {
-        "paragon":"https://www.lightnovelworld.com/novel/paragon-of-sin-16091350",
-        "vamp":"https://www.lightnovelworld.com/novel/my-three-wives-are-beautiful-vampires-30071448",
-        "swordGod":"https://www.lightnovelworld.com/novel/sword-god-in-a-world-of-magic-16091309",
-        "dimensional":"https://www.lightnovelworld.com/novel/dimensional-descent-30071448",
-        "shadowSlave":"https://www.lightnovelworld.com/novel/shadow-slave-30071448",
-        "warlock":"https://www.lightnovelworld.com/novel/blood-warlock-succubus-partner-in-the-apocalypse-16091309"
     }
 
     message = ""
@@ -84,4 +75,4 @@ def paragon():
     
 
 if __name__ == "__main__":
-    paragon()
+    booksToCheck()
