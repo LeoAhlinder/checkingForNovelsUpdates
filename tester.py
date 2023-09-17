@@ -68,20 +68,20 @@ def paragon():
             print("Element with class 'update' not found")
 
         driver.quit()
+    if (message != ""):
+        msg['From'] = email_address
+        msg['To'] = "to"
+        msg['Subject'] = "novels update"
+        body = message
+        msg.attach(MIMEText(body, 'plain'))
 
-    msg['From'] = email_address
-    msg['To'] = "to"
-    msg['Subject'] = "novels update"
-    body = message
-    msg.attach(MIMEText(body, 'plain'))
-
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    server.starttls()
-    server.login(email_address, password)
-    text = msg.as_string()
-    server.sendmail(email_address, "to", text)
-    server.quit()
-
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login(email_address, password)
+        text = msg.as_string()
+        server.sendmail(email_address, "to", text)
+        server.quit()
+    
 
 if __name__ == "__main__":
     paragon()
